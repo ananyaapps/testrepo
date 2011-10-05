@@ -1,0 +1,190 @@
+<!-- Prasanna Bhat
+<<<<<<< HEAD
+created test branch
+second change on the test branch 
+=======
+test2
+>>>>>>> test_2
+ -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New Web Project</title>
+        <link type="text/css" rel="stylesheet" href= "lib/jquery.mobile-1.0a4.min.css">
+        <!--
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" />
+        -->
+        <script type="text/javascript" src="lib/jquery-1.5.js">
+        </script>
+        <script type="text/javascript" src= "lib/dateformat.js">
+        </script>
+        <script type="text/javascript" src= "lib/buddy_database.js">
+        </script>
+        <script type="text/javascript" src= "trackexpense.js">
+        </script>
+        <!--
+        <script type="text/javascript" src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js">
+        </script>
+        -->
+        <script type="text/javascript" src= "lib/jquery.mobile-1.0a4.min.js">
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="home">
+            <div data-role="header" data-nobackbtn="true" data-position="fixed">
+                <h1>Buddy Expense Tracker</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <h2 style="padding: 1em 0;">Buddy Expense List</h2>
+                <ul data-role="listview" data-inset="true" data-filter="true">
+                </ul>
+            </div>
+            <!-- /content -->
+            <div data-role="footer" data-position="fixed">
+                <p>
+                    <a href="#manage_buddies" id="ManageBuddies" data-role="button">Manage Buddies</a>
+                    <!--
+                    <a href="#add_expense" id="AddExpense" data-role="button">Add Expense</a>
+                    --><a href="#add_expense" id="AddExpense" data-role="button">Add Expense</a>
+                </p>
+            </div>
+            <!-- /footer -->
+        </div>
+        <div data-role="page" id="manage_buddies">
+            <div data-role="header">
+                <h1>Manage Buddies</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <h2 style="padding: 1em 0;">Buddies</h2>
+                <ul data-role="listview" data-inset="true">
+                    <li id="BuddyTemplate" class="BuddyEntry" style="display:none">
+                        <a class="buddyName">buddyName</a>
+                        <a class="buddyId" style="display:none">0</a>
+                        <a class="delete" data-icon="delete">Delete Entry</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /content -->
+            <div data-role="footer">
+                <p>
+                    <a href="#addbuddy" data-role="button">Add Buddy</a>
+					<a href="" data-rel="back" data-role="button" data-icon="arrow-l" class="ui-btn-left">Back</a>
+                </p>
+            </div>
+            <!-- /footer -->
+        </div>
+        <div data-role="page" id="addbuddy">
+            <div data-role="header">
+                <h1>Add Buddy</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <form method="post">
+                    <div data-role="fieldcontain">
+                        <label for="buddyName">
+                            Buddy Name
+                        </label>
+                        <input type="text" name="buddyName" id="buddyName" value="" autocapitalize="off" autocorrect="off" autocomplete="off"/><span id="buddyNameValidate"></span>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="name">
+                            Phone number
+                        </label>
+                        <input type="tel" name="phone" id="phone" value="" autocapitalize="off" autocorrect="off" autocomplete="off"/>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="emailid">
+                            Email
+                        </label>
+                        <input type="email" name="emailid" id="emailid" value="" autocapitalize="off" autocorrect="off" autocomplete="off"/>
+                    </div><input type="submit" value="Add Buddy"/>
+                </form>
+            </div><!-- /content -->
+        </div>
+        <div data-role="page" id="add_expense">
+            <div data-role="header">
+                <h1>Add Expense</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <form id="add_expense_form" method="get">
+                    <div data-role="fieldcontain">
+                        <label for="select_buddy" class="select">
+                            Buddy Name
+                        </label>
+                        <!--
+                        <select name="select_buddy" id="select_buddy" data-theme="d">
+                        -->
+                        <select name="select_buddy" id="select_buddy" data-theme="d">
+                        </select>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <input type="radio" name="radio-choice-1" id="radio-choice-1" value="give" checked="checked" />
+                            <label for="radio-choice-1">
+                                give
+                            </label>
+                            <input type="radio" name="radio-choice-1" id="radio-choice-2" value="take" />
+                            <label for="radio-choice-2">
+                                take
+                            </label>
+                        </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="expense_date">
+                            Date Input:
+                        </label>
+                        <input type="text" name="expense_date" id="expense_date" placeholder="YYYY-MM-DD" value="" autocapitalize="off" autocorrect="off" autocomplete="off"/>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="expense_amount">
+                            Expense Amount
+                        </label>
+                        <input type="text" name="expense_amount" id="expense_amount" placeholder="Mandatory" value="" autocapitalize="off" autocorrect="off" autocomplete="off"/><span id="expense_amount_validate"></span>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="expense_desc">
+                            Expense Description
+                        </label>
+                        <input type="text" name="expense_desc" id="expense_desc" placeholder="Optional" value="" autocapitalize="off" autocorrect="off" autocomplete="off"/>
+                    </div><input type="button" id="add_expense_submit" value="Add/Modify Expense"/>
+                </form>
+            </div><!-- /content -->
+            <div data-role="footer">
+            </div>
+            <!-- /footer -->
+        </div>
+        <div data-role="page" id="expense_details">
+            <div data-role="header">
+                <h1>Expense Details</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <ul data-role="listview" data-inset="true" data-split-icon="delete" data-split-theme="d">
+                    <li data-expid="expense_id">
+                        <h3><a data-expid="expense_id" class="single_expense" href="#add_expense">exp_desc</a></h3>
+                        <h5>exp_date</h5>
+                        <span class="ui-li-count">exp_amount</span>
+                    </li>
+<li data-expid="expense_id">
+                        <h3><a data-expid="expense_id" class="single_expense" href="#add_expense">exp_desc</a></h3>
+                        <h5>exp_date</h5>
+                        <span class="ui-li-count">exp_amount</span>
+                        <a class="delete_expense" data-icon="delete">Delete Entry</a>
+                    </li>					
+                </ul>
+            </div>
+            <!-- /content -->
+            <div data-role="footer">
+                <p>
+                    <a href="#" id="expense_details_delete" data-role="button">Edit Mode</a>
+                    <a href="#" id="expense_details_deleteall" data-role="button">Delete All</a>
+                    <a href="#add_expense" id="add_buddy_expense" data-role="button">Add Expense</a>
+                </p>
+            </div>
+            <!-- /footer -->
+        </div>
+    </body>
+</html>

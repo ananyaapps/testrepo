@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New Web Project</title>
+        <link type="text/css" rel="stylesheet" href= "lib/jquery.mobile-1.0a3.css">
+        <!--
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" />
+        -->
+        <script type="text/javascript" src="lib/jquery-1.5.js">
+        </script>
+        <script type="text/javascript" src= "lib/buddy_database.js">
+        </script>
+        <script type="text/javascript">
+            var buddyDb;
+            $(document).ready(function(){
+                initialiseDb();
+				refreshExpenseDetails();
+            });
+            function initialiseDb(){
+                var shortName = 'buddyDb';
+                var version = '1.0';
+                var maxSize = 65536;
+                buddyDb = new buddyDatabase(shortName, version, maxSize, null);
+                buddyDb.initialise();
+            }
+            
+            function refreshExpenseDetails(callback){
+                $('#expense_details h1').text(sessionStorage.buddyName + ": Expense Details");
+                $('#expense_details ul li').remove();
+                var template = '<li data-expid="expense_id"><h3><a data-expid="expense_id" class="single_expense" href="#add_expense">exp_desc</a></h3><h5>exp_date</h5><span class="ui-li-count">exp_amount</span><a class="delete_expense">Delete Entry</a></li>';
+                var laterCallback = callback;
+                //var template =  '<li data-expid="expense_id"><h3><a data-expid="expense_id" class="single_expense" href="#add_expense">exp_desc</a></h3><h5>exp_date</h5><span class="ui-li-count">exp_amount</span></li>';
+                var list = '';
+                
+                var handler = function(transaction, result){
+                    var str;
+                    for (var i = 0; i < result.rows.length; i++) {
+                        var row = result.rows.item(i);
+                        str = template.replace(/exp_desc/, row.exp_description);
+                        str = str.replace(/exp_amount/, row.exp_amount);
+                        str = str.replace(/exp_date/, row.exp_date);
+                        str = str.replace(/expense_id/g, row.exp_id);
+                        list = list + str;
+                    }
+                    
+                    laterCallback();
+                    $('#expense_details ul').html(list).listview('refresh');
+                    
+                    $('#expense_details .delete_expense').click(function(){
+                        buddyDb.deleteExpenseById($(this).parent().attr("data-expid"), sessionStorage.buddyId);
+                        $(this).parent().remove();
+                        $('#expense_details ul').listview('refresh');
+                    });
+                    
+                    $('#expense_details .single_expense').click(function(){
+                        sessionStorage.expenseId = $(this).attr("data-expid");
+                        sessionStorage.expenseDescription = $(this).text();
+                        sessionStorage.expenseDate = $(this).parent().siblings('h5').text();
+                        sessionStorage.expenseAmount = $(this).parent().siblings('.ui-li-count').text();
+                    });
+                    
+                    //$('.delete_expense').css("display","none");
+                    $('#expense_details .delete_expense').hide();
+                    $('#expense_details_deleteall').hide();
+                    
+                    //$('#expense_details ul li .delete_expense').hide();
+                };
+                
+                buddyDb.getExpenseDetails(sessionStorage.buddyId, handler);
+                
+            }
+        </script>
+        <!--
+        <script type="text/javascript" src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js">
+        </script>
+        -->
+        <script type="text/javascript" src= "lib/jquery.mobile-1.0a3.js">
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="manage_buddies">
+            <div data-role="header">
+                <h1>Manage Buddies</h1>
+            </div>
+            <!-- /header -->
+            <div data-role="content">
+                <h2 style="padding: 1em 0;">Buddies</h2>
+                <ul data-role="listview" data-inset="true">
+                    <li id="BuddyTemplate" class="BuddyEntry" style="display:none">
+                        <a class="buddyName">buddyName</a>
+                        <a class="buddyId" style="display:none">0</a>
+                        <a class="delete" data-icon="delete">Delete Entry</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /content -->
+            <div data-role="footer">
+                <p>
+                    <a href="#addbuddy" data-role="button">Add Buddy</a>
+                    <a href="" data-rel="back" data-role="button" data-icon="arrow-l" class="ui-btn-left">Back</a>
+                </p>
+            </div>
+            <!-- /footer -->
+        </div>
+    </body>
+</html>
